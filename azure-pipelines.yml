@@ -42,7 +42,7 @@ stages:
               environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
       - job: 'terraform_apply'
         displayName: 'Apply Terraform'
-          steps:
+        steps:
           - task: terraform_apply
             inputs:
               provider: 'azurerm'
