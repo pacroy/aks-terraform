@@ -38,6 +38,11 @@ stages:
               command: 'plan'
               commandOptions: '-out=terraform.tfplan'
               environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: 'terraform.tfstate'
+              artifact: 'terraform.tfstate'
+              publishLocation: 'pipeline'
           - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
