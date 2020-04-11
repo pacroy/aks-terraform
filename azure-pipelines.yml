@@ -19,8 +19,8 @@ stages:
           - task: TerraformInstaller@0
             inputs:
               terraformVersion: '0.12.24'
-      - job: terrafrom_init
-        displayName: 'Init Terraform'
+      - job: terrafrom_apply
+        displayName: 'Apply Terraform'
         steps:
           - task: TerraformTaskV1@0
             inputs:
@@ -31,18 +31,12 @@ stages:
               backendAzureRmStorageAccountName: 'stparaksshared003'
               backendAzureRmContainerName: 'tfstate-aks'
               backendAzureRmKey: 'tf/terraform.tfstate'
-      - job: 'terraform_plan'
-        displayName: 'Plan Terraform'
-        steps:
           - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'plan'
               commandOptions: '-out=terraform.tfstate'
               environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-      - job: 'terraform_apply'
-        displayName: 'Apply Terraform'
-        steps:
           - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
