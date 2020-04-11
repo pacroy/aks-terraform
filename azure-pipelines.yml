@@ -31,7 +31,7 @@ stages:
               backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
               backendAzureRmStorageAccountName: 'stparaksshared003'
               backendAzureRmContainerName: 'tfstate-aks'
-              backendAzureRmKey: 'tf/terraform.tfstate'
+              backendAzureRmKey: 'terraform.tfstate'
           - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
