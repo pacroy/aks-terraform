@@ -56,32 +56,31 @@ stages:
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
-      - deployment: terraform_apply
-        displayName: 'Apply Terraform'
+      - deployment: approval
+        displayName: 'Deploy to shared?'
         environment: 'shared'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: TerraformTaskV1@0
-                  displayName: 'Init Terraform'
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'init'
-                    backendServiceArm: $(serviceNameAzureRm)
-                    backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
-                    backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
-                    backendAzureRmContainerName: $(backendAzureRmContainerName)
-                    backendAzureRmKey: $(backendAzureRmKey)
-                - task: DownloadPipelineArtifact@2
-                  displayName: Retrieve Terraform Plan
-                  inputs:
-                    artifact: terraform-plan
-                    path: $(Build.SourcesDirectory)
-                - task: TerraformTaskV1@0
-                  displayName: 'Apply Terraform'
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'apply'
-                    commandOptions: '-auto-approve tfplan'
-                    environmentServiceNameAzureRM: $(serviceNameAzureRm)
+      - job: terraform_plan
+        displayName: 'Init and Plan Terraform'
+        steps:
+          - task: TerraformTaskV1@0
+            displayName: 'Init Terraform'
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: $(serviceNameAzureRm)
+              backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
+              backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
+              backendAzureRmContainerName: $(backendAzureRmContainerName)
+              backendAzureRmKey: $(backendAzureRmKey)
+          - task: DownloadPipelineArtifact@2
+            displayName: Retrieve Terraform Plan
+            inputs:
+              artifact: terraform-plan
+              path: $(Build.SourcesDirectory)
+          - task: TerraformTaskV1@0
+            displayName: 'Apply Terraform'
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              commandOptions: '-auto-approve tfplan'
+              environmentServiceNameAzureRM: $(serviceNameAzureRm)
