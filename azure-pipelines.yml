@@ -48,7 +48,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
-              commandOptions: '-out=tfplan'
+              commandOptions: '-out=tfplan -input=false -var resource_group_name=$(resource_group_name) -var location=$(location) -var aks_cluster_name=$(aks_cluster_name) -var aks_client_id=$(aks_client_id) -var aks_client_secret=$(aks_client_secret) -var tags.cluster=$(cluster_tag)'
               environmentServiceNameAzureRM: $(serviceNameAzureRm)
           - publish: tfplan
             artifact: terraform-plan
@@ -79,5 +79,5 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
-              commandOptions: '-auto-approve tfplan'
+              commandOptions: '-auto-approve -var resource_group_name=$(resource_group_name) -var location=$(location) -var aks_cluster_name=$(aks_cluster_name) -var aks_client_id=$(aks_client_id) -var aks_client_secret=$(aks_client_secret) -var tags.cluster=$(cluster_tag) tfplan'
               environmentServiceNameAzureRM: $(serviceNameAzureRm)

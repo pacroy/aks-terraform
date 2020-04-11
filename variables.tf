@@ -1,9 +1,3 @@
-#Provider
-variable "subscription_id" {}
-variable "tenant_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-
 #Resource Group
 variable "resource_group_name" {}
 
