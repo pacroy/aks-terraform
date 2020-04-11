@@ -1,0 +1,51 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'preparation'
+  displayName: 'Prepapration'
+  jobs:
+  - job: 'terraform_install'
+    displayName: 'Install Terraform'
+    steps:
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: '0.12.24'
+    - task: TerraformTaskV1@0
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+        backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
+        backendAzureRmStorageAccountName: 'stparaksshared003'
+        backendAzureRmContainerName: 'tfstate-aks'
+        backendAzureRmKey: 'tf/terraform.tfstate'
+- stage: 'terraform_apply'
+  displayName: 'Apply Terraform'
+  jobs:
+  - job: 'terraform_plan'
+    displayName: 'Plan Terraform'
+    steps:
+    - task: TerraformTaskV1@0
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-out=tfplan'
+        environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+  - job: 'terraform_apply'
+    displayName: 'Apply Terraform'
+    steps:
+    - task: TerraformTaskV1@0
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-var-file=terraform.tfvars -auto-approve'
+        environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
