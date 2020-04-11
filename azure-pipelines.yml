@@ -34,6 +34,7 @@ stages:
         displayName: 'Init and Plan Terraform'
         steps:
           - task: TerraformTaskV1@0
+            displayName: 'Init Terraform'
             inputs:
               provider: 'azurerm'
               command: 'init'
@@ -43,6 +44,7 @@ stages:
               backendAzureRmContainerName: $(backendAzureRmContainerName)
               backendAzureRmKey: $(backendAzureRmKey)
           - task: TerraformTaskV1@0
+            displayName: 'Plan Terraform'
             inputs:
               provider: 'azurerm'
               command: 'plan'
@@ -58,6 +60,7 @@ stages:
         displayName: 'Apply Terraform'
         steps:
           - task: TerraformTaskV1@0
+            displayName: 'Init Terraform'
             inputs:
               provider: 'azurerm'
               command: 'init'
@@ -72,6 +75,7 @@ stages:
               artifact: terraform-plan
               path: $(Build.SourcesDirectory)
           - task: TerraformTaskV1@0
+            displayName: 'Apply Terraform'
             inputs:
               provider: 'azurerm'
               command: 'apply'
