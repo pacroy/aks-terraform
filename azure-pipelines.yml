@@ -25,7 +25,6 @@ stages:
     jobs:
       - job: terraform_plan
         displayName: 'Init and Plan Terraform'
-        dependsOn: 'terraform_install'
         steps:
           - task: TerraformTaskV1@0
             inputs:
