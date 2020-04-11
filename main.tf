@@ -11,7 +11,9 @@ terraform {
 resource "azurerm_resource_group" "main" {
     name     = var.resource_group_name
     location = var.location
-    tags     = var.tags
+    tags     = {
+      cluster = var.tag_cluster
+    }
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
@@ -65,5 +67,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  tags = var.tags
+  tags  = {
+    cluster = var.tag_cluster
+  }
 }
