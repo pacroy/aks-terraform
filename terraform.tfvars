@@ -10,7 +10,7 @@ resource_group_name = "rg-par-aks-shared-003"
 
 #AKS cluster
 location = "southeastasia"
-aks_cluster_name = "par03"
+aks_cluster_name = "aks-par-shared-003"
 aks_client_id = "06a50c19-a2e7-4641-a04e-ddffc93ef29c"
 aks_client_secret = "736s?3Xgo?kohSU.FSp_dUZF:h?vM6k9"
 

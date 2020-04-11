@@ -1,5 +1,5 @@
 provider "azurerm" {
-    version       = "=2.4.0"
+    version       = "~> 2.4.0"
     subscription_id = var.subscription_id
     tenant_id       = var.tenant_id
     client_id       = var.client_id
@@ -28,6 +28,10 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     tags                = var.tags
   }
+
+  role_based_access_control  {
+    enabled = false
+  }
   
   service_principal {
     client_id     = var.aks_client_id
@@ -41,6 +45,18 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   addon_profile {
+    aci_connector_linux {
+      enabled = false
+    }
+
+    azure_policy {
+      enabled = false
+    }
+
+    http_application_routing {
+      enabled = false
+    }
+
     kube_dashboard {
       enabled = false
     }
@@ -48,10 +64,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     oms_agent {
       enabled = false
     }
-  }
-
-  role_based_access_control  {
-    enabled = false
   }
 
   tags = var.tags
