@@ -7,6 +7,19 @@ provider "azurerm" {
     features {}
 }
 
+terraform {
+  backend "azurerm" {
+    arm_subscription_id  = "99813d40-928b-44b2-a969-2c7ea5bd8b96" #par-shared-002 
+    arm_tenant_id        = "3e3564a4-647b-44d3-b3ca-32631ec63210"
+    arm_client_id        = "ef11eb5f-12ac-401e-991d-eaaebf6c63c1" #http://parspforcli
+    arm_client_secret    = "OQg.Kj7vY2VUN8/e5Pw@WLrn.yQu=14_"
+    resource_group_name  = "rg-par-storage-shared-002"
+    storage_account_name = "stparaksshared003"
+    container_name       = "tfstate-aks"
+    key                  = "terraform.tfstate"
+  }
+}
+
 resource "azurerm_resource_group" "main" {
     name     = var.resource_group_name
     location = var.location
