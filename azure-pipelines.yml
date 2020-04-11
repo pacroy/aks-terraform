@@ -16,13 +16,13 @@ stages:
       - job: 'terraform_install'
         displayName: 'Install Terraform'
         steps:
-          - task: terraform_install@1
+          - task: TerraformInstaller@0
             inputs:
               terraformVersion: '0.12.24'
       - job: terrafrom_init
         displayName: 'Init Terraform'
         steps:
-          - task: terraform_init@1
+          - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'init'
@@ -34,7 +34,7 @@ stages:
       - job: 'terraform_plan'
         displayName: 'Plan Terraform'
         steps:
-          - task: terraform_plan@1
+          - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'plan'
@@ -43,7 +43,7 @@ stages:
       - job: 'terraform_apply'
         displayName: 'Apply Terraform'
         steps:
-          - task: terraform_apply@1
+          - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'apply'
