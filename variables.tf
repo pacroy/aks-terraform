@@ -8,6 +8,4 @@ variable "aks_client_id" {}
 variable "aks_client_secret" {}
 
 #Tags
-variable "tags" {
-    type = map
-}
+variable "tag_cluster" {}
