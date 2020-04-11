@@ -58,7 +58,7 @@ stages:
     jobs:
       - deployment: terraform_apply
         displayName: 'Apply Terraform'
-        environment: 'approval'
+        environment: 'shared'
         strategy:
           runOnce:
             deploy:
