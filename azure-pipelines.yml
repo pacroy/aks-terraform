@@ -23,14 +23,14 @@ stages:
         displayName: 'Init Terraform'
         steps:
           - task: terraform_init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-            backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
-            backendAzureRmStorageAccountName: 'stparaksshared003'
-            backendAzureRmContainerName: 'tfstate-aks'
-            backendAzureRmKey: 'tf/terraform.tfstate'
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+              backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
+              backendAzureRmStorageAccountName: 'stparaksshared003'
+              backendAzureRmContainerName: 'tfstate-aks'
+              backendAzureRmKey: 'tf/terraform.tfstate'
       - job: 'terraform_plan'
         displayName: 'Plan Terraform'
         steps:
