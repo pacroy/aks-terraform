@@ -38,8 +38,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     vm_size             = "Standard_B2ms"
     enable_auto_scaling = false
     node_count          = 2
-
-    tags                = var.tags
   }
 
   role_based_access_control  {

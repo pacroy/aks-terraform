@@ -9,6 +9,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  serviceNameAzureRm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+  backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
+  backendAzureRmStorageAccountName: 'stparaksshared003'
+  backendAzureRmContainerName: 'tfstate-aks'
+  backendAzureRmKey: 'terraform.tfstate'
+
 stages:
   - stage: 'terraform_install'
     displayName: 'Install Terraform'
@@ -30,17 +37,17 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-              backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
-              backendAzureRmStorageAccountName: 'stparaksshared003'
-              backendAzureRmContainerName: 'tfstate-aks'
-              backendAzureRmKey: 'terraform.tfstate'
+              backendServiceArm: $(serviceNameAzureRm)
+              backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
+              backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
+              backendAzureRmContainerName: $(backendAzureRmContainerName)
+              backendAzureRmKey: $(backendAzureRmKey)
           - task: TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'plan'
               commandOptions: '-out=tfplan'
-              environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+              environmentServiceNameAzureRM: $(serviceNameAzureRm)
           - publish: tfplan
             artifact: terraform-plan
             displayName: Publish Terraform Plan
@@ -54,11 +61,11 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-              backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
-              backendAzureRmStorageAccountName: 'stparaksshared003'
-              backendAzureRmContainerName: 'tfstate-aks'
-              backendAzureRmKey: 'terraform.tfstate'
+              backendServiceArm: $(serviceNameAzureRm)
+              backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
+              backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
+              backendAzureRmContainerName: $(backendAzureRmContainerName)
+              backendAzureRmKey: $(backendAzureRmKey)
           - task: DownloadPipelineArtifact@2
             displayName: Retrieve Terraform Plan
             inputs:
@@ -69,4 +76,4 @@ stages:
               provider: 'azurerm'
               command: 'apply'
               commandOptions: '-auto-approve tfplan'
-              environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+              environmentServiceNameAzureRM: $(serviceNameAzureRm)
