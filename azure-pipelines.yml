@@ -41,20 +41,28 @@ stages:
               command: 'plan'
               commandOptions: '-out=tfplan'
               environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-          - publish: ./
-            artifact: terraform-artifacts
-            displayName: Publish Terraform Artifacts
+          - publish: tfplan
+            artifact: terraform-plan
+            displayName: Publish Terraform Plan
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
       - job: terraform_apply
         displayName: 'Apply Terraform'
         steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            displayName: Retrieve Terraform Artifacts
+          - task: TerraformTaskV1@0
             inputs:
-              artifact: terraform-artifacts
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+              backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
+              backendAzureRmStorageAccountName: 'stparaksshared003'
+              backendAzureRmContainerName: 'tfstate-aks'
+              backendAzureRmKey: 'terraform.tfstate'
+          - task: DownloadPipelineArtifact@2
+            displayName: Retrieve Terraform Plan
+            inputs:
+              artifact: terraform-plan
               path: $(Build.SourcesDirectory)
           - task: TerraformTaskV1@0
             inputs:
