@@ -40,12 +40,12 @@ stages:
               environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: 'terraform.tfstate'
-              artifact: 'terraform.tfstate'
+              targetPath: 'terraform.tfplan'
+              artifact: 'terraform.tfplan'
               publishLocation: 'pipeline'
-          - task: TerraformTaskV1@0
-            inputs:
-              provider: 'azurerm'
-              command: 'apply'
-              commandOptions: '-auto-approve terraform.tfplan'
-              environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
+          # - task: TerraformTaskV1@0
+          #   inputs:
+          #     provider: 'azurerm'
+          #     command: 'apply'
+          #     commandOptions: '-auto-approve terraform.tfplan'
+          #     environmentServiceNameAzureRM: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
