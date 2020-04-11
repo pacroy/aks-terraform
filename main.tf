@@ -1,22 +1,10 @@
 provider "azurerm" {
     version       = "~> 2.4.0"
-    subscription_id = var.subscription_id
-    tenant_id       = var.tenant_id
-    client_id       = var.client_id
-    client_secret   = var.client_secret
     features {}
 }
 
 terraform {
   backend "azurerm" {
-    subscription_id  = "99813d40-928b-44b2-a969-2c7ea5bd8b96" #par-shared-002 
-    tenant_id        = "3e3564a4-647b-44d3-b3ca-32631ec63210"
-    client_id        = "ef11eb5f-12ac-401e-991d-eaaebf6c63c1" #http://parspforcli
-    client_secret    = "OQg.Kj7vY2VUN8/e5Pw@WLrn.yQu=14_"
-    resource_group_name  = "rg-par-storage-shared-002"
-    storage_account_name = "stparaksshared003"
-    container_name       = "tfstate-aks"
-    key                  = "terraform.tfstate"
   }
 }
 
