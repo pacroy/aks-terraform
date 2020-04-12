@@ -58,7 +58,7 @@ stages:
     jobs:
       - deployment: approval
         displayName: 'Deploy to shared?'
-        environment: 'shared'
+        environment: $(environmentName)
       - job: terraform_plan
         displayName: 'Apply Terraform'
         steps:

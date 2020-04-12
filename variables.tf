@@ -1,3 +1,17 @@
+#Provider
+variable "subscription_id" {
+    default = ""
+}
+variable "tenant_id" {
+    default = ""
+}
+variable "client_id" {
+    default = ""
+}
+variable "client_secret" {
+    default = ""
+}
+
 #Resource Group
 variable "resource_group_name" {}
 
