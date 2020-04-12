@@ -1,15 +1,15 @@
 #Provider
 variable "subscription_id" {
-    default = ""
+    default = null
 }
 variable "tenant_id" {
-    default = ""
+    default = null
 }
 variable "client_id" {
-    default = ""
+    default = null
 }
 variable "client_secret" {
-    default = ""
+    default = null
 }
 
 #Resource Group
