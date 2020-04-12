@@ -52,6 +52,6 @@ terraform apply tfplan
 | aks_client_id | Service Principle ID |
 | aks_client_secret | Service Principle Secret |
 | tag_cluster | `cluster` tag value |
-| environmentName | Azure Pipeline Environment name created in 1. |
+| environment_name | Azure Pipeline Environment name created in 1. |
 
 3. Run the pipeline. If you setup an approval, it will need one before apply changes in the last stage
