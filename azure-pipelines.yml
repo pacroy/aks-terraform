@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
   - master
   
@@ -10,11 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  serviceNameAzureRm: 'par-shared-002(99813d40-928b-44b2-a969-2c7ea5bd8b96)'
-  backendAzureRmResourceGroupName: 'rg-par-storage-shared-002'
-  backendAzureRmStorageAccountName: 'stparaksshared003'
-  backendAzureRmContainerName: 'tfstate-aks'
-  backendAzureRmKey: 'terraform.tfstate'
+  backendAzureRmServiceName: $(backendAzureRmServiceName)
+  backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
+  backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
+  backendAzureRmContainerName: $(backendAzureRmContainerName)
+  backendAzureRmKey: $(backendAzureRmKey)
+  aksAzureRmServiceName: $(aksAzureRmServiceName)
+  aksResourceGroupName: $(aksResourceGroupName)
+  aksLocation: $(aksLocation)
+  aksClusterName: $(aksClusterName)
+  aksServicePrincipleId: $(aksServicePrincipleId)
+  aksServicePrincipleSecret: $(aksServicePrincipleSecret)
+  aksClusterNickname: $(aksClusterNickname)
+  aksADOEnvironmentName: $(aksADOEnvironmentName)
 
 stages:
   - stage: 'terraform_install'
@@ -38,7 +41,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: $(serviceNameAzureRm)
+              backendServiceArm: $(backendAzureRmServiceName)
               backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
               backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
               backendAzureRmContainerName: $(backendAzureRmContainerName)
@@ -48,8 +51,8 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
-              commandOptions: '-out=tfplan -input=false -var resource_group_name=$(resource_group_name) -var location=$(location) -var aks_cluster_name=$(aks_cluster_name) -var aks_client_id=$(aks_client_id) -var aks_client_secret=$(aks_client_secret) -var tag_cluster=$(tag_cluster)'
-              environmentServiceNameAzureRM: $(serviceNameAzureRm)
+              commandOptions: '-out=tfplan -input=false -var resource_group_name=$(aksResourceGroupName) -var location=$(aksLocation) -var aks_cluster_name=$(aksClusterName) -var aks_client_id=$(aksServicePrincipleId) -var aks_client_secret=$(aksServicePrincipleSecret) -var tag_cluster=$(aksClusterNickname)'
+              environmentServiceNameAzureRM: $(aksAzureRmServiceName)
           - publish: tfplan
             artifact: terraform-plan
             displayName: Publish Terraform Plan
@@ -69,7 +72,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'init'
-                    backendServiceArm: $(serviceNameAzureRm)
+                    backendServiceArm: $(backendAzureRmServiceName)
                     backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
                     backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
                     backendAzureRmContainerName: $(backendAzureRmContainerName)
@@ -80,4 +83,4 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     commandOptions: '-auto-approve ../terraform-plan/tfplan'
-                    environmentServiceNameAzureRM: $(serviceNameAzureRm)
+                    environmentServiceNameAzureRM: $(aksAzureRmServiceName)
