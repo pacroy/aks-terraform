@@ -46,7 +46,7 @@ stages:
     jobs:
       - deployment: apply_terraform
         displayName: 'Apply Terraform'
-        environment: $(environment_name)
+        environment: $(aksADOEnvironmentName)
         strategy:
           runOnce:
             deploy:
