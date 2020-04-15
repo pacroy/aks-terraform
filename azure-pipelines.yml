@@ -4,21 +4,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  backendAzureRmServiceName: $(backendAzureRmServiceName)
-  backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
-  backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
-  backendAzureRmContainerName: $(backendAzureRmContainerName)
-  backendAzureRmKey: $(backendAzureRmKey)
-  aksAzureRmServiceName: $(aksAzureRmServiceName)
-  aksResourceGroupName: $(aksResourceGroupName)
-  aksLocation: $(aksLocation)
-  aksClusterName: $(aksClusterName)
-  aksServicePrincipleId: $(aksServicePrincipleId)
-  aksServicePrincipleSecret: $(aksServicePrincipleSecret)
-  aksClusterNickname: $(aksClusterNickname)
-  aksADOEnvironmentName: $(aksADOEnvironmentName)
-
 stages:
   - stage: 'terraform_install'
     displayName: 'Install Terraform'
