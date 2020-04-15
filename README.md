@@ -44,14 +44,27 @@ terraform apply tfplan
 
 2. Create an Azure Pipeline running against this repo with the following variables:
 
+**Variables for Terraform Backend Configuration in Azure Storage**
+
 | Variable Name | Description |
 | --- | --- |
-| resource_group_name | Resource Group name |
-| location | Resource location |
-| aks_cluster_name | AKS Cluster Name |
-| aks_client_id | Service Principle ID |
-| aks_client_secret | Service Principle Secret |
-| tag_cluster | `cluster` tag value |
-| environment_name | Azure Pipeline Environment name created in 1. |
+| backendAzureRmServiceName | Service Connection Name |
+| backendAzureRmResourceGroupName | Resource Group Name |
+| backendAzureRmStorageAccountName | Storage Account Name |
+| backendAzureRmContainerName | Storage Container Name |
+| backendAzureRmKey | Storage Key Name e.g. `terraform.tfstate` |
+
+**AKS Cluster Configuration Variables**
+
+| Variable Name | Description |
+| --- | --- |
+| aksAzureRmServiceName | Service Connection Name |
+| aksResourceGroupName | Resource Group Name |
+| aksLocation | Resource Location |
+| aksClusterName | AKS Cluster Name |
+| aksServicePrincipleId | Service Principle ID |
+| aksServicePrincipleSecret | Service Principle Secret |
+| aksClusterNickname | AKS Cluster Nickname (as tag `cluster`) |
+| aksADOEnvironmentName | Configured Environment Name in Azure DevOps |
 
 3. Run the pipeline. If you setup an approval, it will need one before apply changes in the last stage
