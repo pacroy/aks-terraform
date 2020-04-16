@@ -51,9 +51,8 @@ stages:
           runOnce:
             deploy:
               steps:
-                - bash: 'mv ../all-artifacts/* .'
-                  displayName: 'Move All Artifacts'
-                  name: MoveAllArtifacts
+                - bash: pwd
+                  workingDirectory: '../all-artifacts'
                 - task: TerraformTaskV1@0
                   displayName: 'Apply Terraform'
                   inputs:
