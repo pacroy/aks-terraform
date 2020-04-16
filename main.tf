@@ -71,14 +71,14 @@ resource "kubernetes_namespace" "cert-manager" {
   }
 }
 
-# module "nginx-ingress" {
-#   source = "./nginx-ingress"
-#   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
-#   namespace = "kube-system"
-# }
+module "nginx-ingress" {
+  source = "./nginx-ingress"
+  kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
+  namespace = "kube-system"
+}
 
-# module "cert-manager" {
-#   source = "./cert-manager"
-#   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
-#   namespace = kubernetes_namespace.cert-manager.metadata[0].name
-# }
+module "cert-manager" {
+  source = "./cert-manager"
+  kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
+  namespace = kubernetes_namespace.cert-manager.metadata[0].name
+}
