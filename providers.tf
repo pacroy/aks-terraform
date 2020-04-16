@@ -12,12 +12,19 @@ terraform {
   }
 }
 
-# provider "kubernetes" {
-#   host = azurerm_kubernetes_cluster.main.kube_config.host
+provider "helm" {
+  version = "~> 1.1"
+  kubernetes {
+    host = var.kube_config.host
 
-#   client_certificate     = base64decode(azurerm_kubernetes_cluster.main.kube_config.client_certificate)
-#   client_key             = base64decode(azurerm_kubernetes_cluster.main.kube_config.client_key)
-#   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.main.kube_config.cluster_ca_certificate)
-#   load_config_file       = false
-#   version                = "=1.10.0"
-# }
+    client_certificate     = base64decode(var.kube_config.client_certificate)
+    client_key             = base64decode(var.kube_config.client_key)
+    cluster_ca_certificate = base64decode(var.kube_config.cluster_ca_certificate)
+    load_config_file       = false
+  }
+}
+
+data "helm_repository" "stable" {
+  name = "stable"
+  url  = "https://kubernetes-charts.storage.googleapis.com"
+}
