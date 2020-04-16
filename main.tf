@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 }
 
 module "cert-manager" {
-  source = "cert-manager"
+  source = "./cert-manager"
   kube_config = azurerm_kubernetes_cluster.main.kube_config
   namespace = "cert-manager"
 }
