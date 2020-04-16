@@ -44,22 +44,20 @@ stages:
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
-      - deployment: deployment_approval
-        displayName: 'Deployment Approval'
-        environment: $(aksADOEnvironmentName)
-      - job: terraapply_terraformform_plan
+      - deployment: apply_terraform
         displayName: 'Apply Terraform'
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            displayName: Download All Artifacts
-            inputs:
-              artifact: all-artifacts
-              path: $(Build.SourcesDirectory)
-          - task: TerraformTaskV1@0
-            displayName: 'Apply Terraform'
-            inputs:
-              provider: 'azurerm'
-              command: 'apply'
-              commandOptions: '-auto-approve tfplan'
-              environmentServiceNameAzureRM: $(aksAzureRmServiceName)
+        environment: $(aksADOEnvironmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - bash: 'mv ../all-artifacts/* .'
+                  displayName: 'Move All Artifacts'
+                  name: MoveAllArtifacts
+                - task: TerraformTaskV1@0
+                  displayName: 'Apply Terraform'
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'apply'
+                    commandOptions: '-auto-approve tfplan'
+                    environmentServiceNameAzureRM: $(aksAzureRmServiceName)
