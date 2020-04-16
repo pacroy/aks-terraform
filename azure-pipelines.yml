@@ -56,6 +56,9 @@ stages:
             inputs:
               artifact: all-artifacts
               path: $(Build.SourcesDirectory)
+          - bash: 'chmod -R 755 .terraform/plugins/linux_amd64'
+            displayName: Change File Permission
+            name: change_permission
           - task: TerraformTaskV1@0
             displayName: 'Apply Terraform'
             inputs:
