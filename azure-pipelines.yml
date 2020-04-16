@@ -38,9 +38,9 @@ stages:
               command: 'plan'
               commandOptions: '-out=tfplan -input=false -var resource_group_name=$(aksResourceGroupName) -var location=$(aksLocation) -var aks_cluster_name=$(aksClusterName) -var aks_client_id=$(aksServicePrincipleId) -var aks_client_secret=$(aksServicePrincipleSecret) -var tag_cluster=$(aksClusterNickname)'
               environmentServiceNameAzureRM: $(aksAzureRmServiceName)
-          - publish: tfplan
-            artifact: terraform-plan
-            displayName: Publish Terraform Plan
+          - publish: ./
+            artifact: all-artifacts
+            displayName: Publish All Artifacts
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
@@ -51,21 +51,12 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
-                - task: TerraformTaskV1@0
-                  displayName: 'Init Terraform'
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'init'
-                    backendServiceArm: $(backendAzureRmServiceName)
-                    backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
-                    backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
-                    backendAzureRmContainerName: $(backendAzureRmContainerName)
-                    backendAzureRmKey: $(backendAzureRmKey)
+                - bash: pwd
+                  workingDirectory: '../all-artifacts'
                 - task: TerraformTaskV1@0
                   displayName: 'Apply Terraform'
                   inputs:
                     provider: 'azurerm'
                     command: 'apply'
-                    commandOptions: '-auto-approve ../terraform-plan/tfplan'
+                    commandOptions: '-auto-approve tfplan'
                     environmentServiceNameAzureRM: $(aksAzureRmServiceName)
