@@ -55,9 +55,9 @@ stages:
                   -var cluster_issuer_email=$(clusterIssuerContactEmail)
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
-          - publish: tfplan
-            artifact: terraform-plan
-            displayName: Publish Terraform Plan
+          - publish: ./
+            artifact: all-artifacts
+            displayName: Publish All Artifacts
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
@@ -68,20 +68,8 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
                 - bash: |
-                    terraform init \
-                        -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
-                        -backend-config=container_name=$(backendAzureRmContainerName) \
-                        -backend-config=key=$(backendAzureRmKey) \
-                        -backend-config=resource_group_name=$(backendAzureRmResourceGroupName) \
-                        -backend-config=subscription_id=$(backendAzureRmSubscriptionId) \
-                        -backend-config=tenant_id=$(backendAzureRmTenantId) \
-                        -backend-config=client_id=$(backendAzureRmClientId) \
-                        -backend-config=client_secret=$(backendAzureRmClientSecret)
-                  displayName: 'Init Terraform'
-                  name: 'init_terraform'
-                - bash: |
+                    cd ../all-artifacts
                     terraform providers
                     terraform apply -auto-approve ../terraform-plan/tfplan
                   displayName: 'Apply Terraform'
