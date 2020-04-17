@@ -44,27 +44,44 @@ terraform apply tfplan
 
 2. Create an Azure Pipeline running against this repo with the following variables:
 
-**Variables for Terraform Backend Configuration in Azure Storage**
+**Terraform Version**
 
 | Variable Name | Description |
 | --- | --- |
-| backendAzureRmServiceName | Service Connection Name |
+| terraformDownloadUrl | Terraform Download URL e.g. `https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip` |
+
+**Terraform Backend Configuration in Azure Storage**
+
+| Variable Name | Description |
+| --- | --- |
+| backendAzureRmSubscriptionId | Azure Subscription ID |
+| backendAzureRmTenantId | Azure Tenant ID |
+| backendAzureRmClientId | Service Principal ID |
+| backendAzureRmClientSecret | Service Principal Secret |
 | backendAzureRmResourceGroupName | Resource Group Name |
 | backendAzureRmStorageAccountName | Storage Account Name |
 | backendAzureRmContainerName | Storage Container Name |
 | backendAzureRmKey | Storage Key Name e.g. `terraform.tfstate` |
 
-**AKS Cluster Configuration Variables**
+**AKS Cluster Configuration**
 
 | Variable Name | Description |
 | --- | --- |
-| aksAzureRmServiceName | Service Connection Name |
+| subscriptionId | Azure Subscription ID |
+| tenantId | Azure Tenant ID |
+| servicePrincipleId | Service Principal ID |
+| servicePrincipleSecret | Service Principal Secret |
 | aksResourceGroupName | Resource Group Name |
 | aksLocation | Resource Location |
 | aksClusterName | AKS Cluster Name |
-| aksServicePrincipleId | Service Principle ID |
-| aksServicePrincipleSecret | Service Principle Secret |
+| aksServicePrincipleId | Service Principle ID for AKS Cluster |
+| aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
 | aksClusterNickname | AKS Cluster Nickname (as tag `cluster`) |
-| aksADOEnvironmentName | Configured Environment Name in Azure DevOps |
+
+**Azure DevOps Configuration**
+
+| Variable Name | Description |
+| --- | --- |
+| environmentName | Environment Name |
 
 3. Run the pipeline. If you setup an approval, it will need one before apply changes in the last stage
