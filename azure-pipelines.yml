@@ -27,29 +27,30 @@ stages:
       - job: terraform_plan
         displayName: 'Plan Terraform'
         steps:
-          - bash: >
-              terraform init
-                  -backend-config=storage_account_name=$(backendAzureRmStorageAccountName)
-                  -backend-config=container_name=$(backendAzureRmContainerName)
-                  -backend-config=key=$(backendAzureRmKey)
-                  -backend-config=resource_group_name=$(backendAzureRmResourceGroupName)
-                  -backend-config=subscription_id=$(backendAzureRmSubscriptionId)
-                  -backend-config=tenant_id=$(backendAzureRmTenantId)
-                  -backend-config=client_id=$(backendAzureRmClientId)
+          - bash: |
+              terraform init \
+                  -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
+                  -backend-config=container_name=$(backendAzureRmContainerName) \
+                  -backend-config=key=$(backendAzureRmKey) \
+                  -backend-config=resource_group_name=$(backendAzureRmResourceGroupName) \
+                  -backend-config=subscription_id=$(backendAzureRmSubscriptionId) \
+                  -backend-config=tenant_id=$(backendAzureRmTenantId) \
+                  -backend-config=client_id=$(backendAzureRmClientId) \
                   -backend-config=client_secret=$(backendAzureRmClientSecret)
             displayName: 'Init Terraform'
             name: 'init_terraform'
-          - bash: >
-              terraform plan -out=tfplan
-                  -var subscription_id=$(subscriptionId)
-                  -var tenant_id=$(tenantId)
-                  -var client_id=$(servicePrincipleId)
-                  -var client_secret=$(servicePrincipleSecret)
-                  -var resource_group_name=$(aksResourceGroupName)
-                  -var location=$(aksLocation)
-                  -var aks_cluster_name=$(aksClusterName)
-                  -var aks_client_id=$(aksServicePrincipleId)
-                  -var aks_client_secret=$(aksServicePrincipleSecret)
+          - bash: |
+              terraform providers
+              terraform plan -out=tfplan \
+                  -var subscription_id=$(subscriptionId) \
+                  -var tenant_id=$(tenantId) \
+                  -var client_id=$(servicePrincipleId) \
+                  -var client_secret=$(servicePrincipleSecret) \
+                  -var resource_group_name=$(aksResourceGroupName) \
+                  -var location=$(aksLocation) \
+                  -var aks_cluster_name=$(aksClusterName) \
+                  -var aks_client_id=$(aksServicePrincipleId) \
+                  -var aks_client_secret=$(aksServicePrincipleSecret) \
                   -var tag_cluster=$(aksClusterNickname)
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
