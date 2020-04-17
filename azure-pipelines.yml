@@ -15,7 +15,7 @@ stages:
           - bash: 'curl -L $(terraformDownloadUrl) -o terraform.zip'
             displayName: 'Download Terraform'
             name: 'download_terraform'
-          - bash: 'unzip terraform.zip -d exdir $(Agent.ToolsDirectory)'
+          - bash: 'unzip terraform.zip -d $(Agent.ToolsDirectory)'
             displayName: 'Unzip Terraform'
             name: 'unzip_terraform'
           - bash: 'terraform version'
