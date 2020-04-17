@@ -70,6 +70,7 @@ stages:
               steps:
                 - bash: |
                     mv ../all-artifacts/* .
+                    ls -al
                     terraform providers
                     terraform apply -auto-approve ../terraform-plan/tfplan
                   displayName: 'Apply Terraform'
