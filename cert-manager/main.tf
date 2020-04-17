@@ -4,4 +4,10 @@ resource "helm_release" "cert-manager" {
   chart      = "cert-manager"
   namespace  = var.namespace
   version    = "0.14.2"
+
+  set {
+    name  = "email"
+    value = var.email
+  }
+
 }

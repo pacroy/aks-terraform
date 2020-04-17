@@ -7,3 +7,4 @@ variable "kube_config" {
   })
 }
 variable "namespace" {}
+variable "email" {}

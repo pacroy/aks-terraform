@@ -23,3 +23,6 @@ variable "aks_client_secret" {}
 
 #Tags
 variable "tag_cluster" {}
+
+#Cluster Issuer Contact
+variable "cluster_issuer_email" {}

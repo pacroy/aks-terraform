@@ -81,4 +81,5 @@ module "cert-manager" {
   source = "./cert-manager"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
   namespace = kubernetes_namespace.cert-manager.metadata[0].name
+  email = var.cluster_issuer_email
 }
