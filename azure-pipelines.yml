@@ -51,7 +51,8 @@ stages:
                   -var aks_cluster_name=$(aksClusterName) \
                   -var aks_client_id=$(aksServicePrincipleId) \
                   -var aks_client_secret=$(aksServicePrincipleSecret) \
-                  -var tag_cluster=$(aksClusterNickname)
+                  -var tag_cluster=$(aksClusterNickname) \
+                  -var cluster_issuer_email=$(clusterIssuerContactEmail)
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
           - publish: tfplan
