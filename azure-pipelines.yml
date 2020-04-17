@@ -41,7 +41,7 @@ stages:
             name: 'init_terraform'
           - bash: |
               terraform providers
-              terraform plan -out=tfplan \  
+              terraform plan -out=tfplan \
                   -var subscription_id=$(subscriptionId) \
                   -var tenant_id=$(tenantId) \
                   -var client_id=$(servicePrincipleId) \
