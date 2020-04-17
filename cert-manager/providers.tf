@@ -10,7 +10,7 @@ provider "helm" {
   }
 }
 
-data "helm_repository" "jetstack" {
-  name = "jetstack"
-  url  = "https://charts.jetstack.io"
+data "helm_repository" "pacroy" {
+  name = "pacroy"
+  url  = "https://raw.githubusercontent.com/pacroy/helm-repo/master"
 }
