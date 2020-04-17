@@ -12,9 +12,25 @@ stages:
         displayName: 'Install Terraform'
         steps:
           - checkout: none
-          - task: TerraformInstaller@0
-            inputs:
-              terraformVersion: '0.12.24'
+          - bash: 'curl -L $(terraformDownloadUrl) -o terraform.zip'
+            displayName: 'Download Terraform'
+            name: 'download_terraform'
+          - bash: 'unzip terraform.zip -d exdir $(Agent.ToolsDirectory)'
+            displayName: 'Unzip Terraform'
+            name: 'unzip_terraform'
+          - bash: 'terraform version'
+            displayName: 'Check Terraform Version'
+            name: 'check_terraform'
+  # - stage: 'terraform_install'
+  #   displayName: 'Install Terraform'
+  #   jobs:
+  #     - job: 'terraform_install'
+  #       displayName: 'Install Terraform'
+  #       steps:
+  #         - checkout: none
+  #         - task: TerraformInstaller@0
+  #           inputs:
+  #             terraformVersion: '0.12.24'
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
