@@ -70,7 +70,7 @@ stages:
               steps:
                 - bash: |
                     cd ../all-files
-                    ls -al
+                    chmod -R 755 .terraform
                     terraform providers
                     terraform apply -auto-approve tfplan
                   displayName: 'Apply Terraform'
