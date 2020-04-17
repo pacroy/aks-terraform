@@ -54,23 +54,6 @@ stages:
                   -var tag_cluster=$(aksClusterNickname)
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
-          # - task: TerraformTaskV1@0
-          #   displayName: 'Init Terraform'
-          #   inputs:
-          #     provider: 'azurerm'
-          #     command: 'init'
-          #     backendServiceArm: $(backendAzureRmServiceName)
-          #     backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
-          #     backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
-          #     backendAzureRmContainerName: $(backendAzureRmContainerName)
-          #     backendAzureRmKey: $(backendAzureRmKey)
-          # - task: TerraformTaskV1@0
-          #   displayName: 'Plan Terraform'
-          #   inputs:
-          #     provider: 'azurerm'
-          #     command: 'plan'
-          #     commandOptions: '-out=tfplan -input=false -var resource_group_name=$(aksResourceGroupName) -var location=$(aksLocation) -var aks_cluster_name=$(aksClusterName) -var aks_client_id=$(aksServicePrincipleId) -var aks_client_secret=$(aksServicePrincipleSecret) -var tag_cluster=$(aksClusterNickname)'
-          #     environmentServiceNameAzureRM: $(aksAzureRmServiceName)
           - publish: tfplan
             artifact: terraform-plan
             displayName: Publish Terraform Plan
@@ -85,20 +68,20 @@ stages:
             deploy:
               steps:
                 - checkout: self
-                - task: TerraformTaskV1@0
+                - bash: |
+                    terraform init \
+                        -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
+                        -backend-config=container_name=$(backendAzureRmContainerName) \
+                        -backend-config=key=$(backendAzureRmKey) \
+                        -backend-config=resource_group_name=$(backendAzureRmResourceGroupName) \
+                        -backend-config=subscription_id=$(backendAzureRmSubscriptionId) \
+                        -backend-config=tenant_id=$(backendAzureRmTenantId) \
+                        -backend-config=client_id=$(backendAzureRmClientId) \
+                        -backend-config=client_secret=$(backendAzureRmClientSecret)
                   displayName: 'Init Terraform'
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'init'
-                    backendServiceArm: $(backendAzureRmServiceName)
-                    backendAzureRmResourceGroupName: $(backendAzureRmResourceGroupName)
-                    backendAzureRmStorageAccountName: $(backendAzureRmStorageAccountName)
-                    backendAzureRmContainerName: $(backendAzureRmContainerName)
-                    backendAzureRmKey: $(backendAzureRmKey)
-                - task: TerraformTaskV1@0
+                  name: 'init_terraform'
+                - bash: |
+                    terraform providers
+                    terraform apply -auto-approve ../terraform-plan/tfplan
                   displayName: 'Apply Terraform'
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'apply'
-                    commandOptions: '-auto-approve ../terraform-plan/tfplan'
-                    environmentServiceNameAzureRM: $(aksAzureRmServiceName)
+                  name: 'apply_terraform'
