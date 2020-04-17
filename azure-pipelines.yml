@@ -69,8 +69,7 @@ stages:
             deploy:
               steps:
                 - bash: |
-                    mv ../all-artifacts/* .
-                    ls -al
+                    mv ../all-artifacts $(Build.SourcesDirectory)
                     terraform providers
                     terraform apply -auto-approve ../terraform-plan/tfplan
                   displayName: 'Apply Terraform'
