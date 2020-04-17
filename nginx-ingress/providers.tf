@@ -10,7 +10,7 @@ provider "helm" {
   }
 }
 
-data "helm_repository" "stable" {
+data "helm_repository" "main" {
   name = "stable"
   url  = "https://kubernetes-charts.storage.googleapis.com"
 }
