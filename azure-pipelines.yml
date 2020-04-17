@@ -68,8 +68,10 @@ stages:
           runOnce:
             deploy:
               steps:
+                - download: current
+                  artifact: all-artifacts
                 - bash: |
-                    mv ../all-artifacts $(Build.SourcesDirectory)
+                    ls -al
                     terraform providers
                     terraform apply -auto-approve ../terraform-plan/tfplan
                   displayName: 'Apply Terraform'
