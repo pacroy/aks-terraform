@@ -72,6 +72,6 @@ stages:
                     cd ../all-files
                     ls -al
                     terraform providers
-                    terraform apply -auto-approve ../terraform-plan/tfplan
+                    terraform apply -auto-approve tfplan
                   displayName: 'Apply Terraform'
                   name: 'apply_terraform'
