@@ -92,6 +92,7 @@ stages:
                   name: 'init_terraform'
                 - bash: |
                     set -ex
+                    helm repo add pacroy https://raw.githubusercontent.com/pacroy/helm-repo/master
                     helm repo update
                     terraform providers
                     terraform apply -auto-approve ../terraform_plan/tfplan
