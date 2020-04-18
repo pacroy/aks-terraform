@@ -92,6 +92,7 @@ stages:
                   name: 'init_terraform'
                 - bash: |
                     set -ex
+                    helm repo update
                     terraform providers
                     terraform apply -auto-approve ../terraform_plan/tfplan
                   displayName: 'Apply Terraform'
