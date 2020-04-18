@@ -1,16 +1,8 @@
 #Provider
-variable "subscription_id" {
-    default = null
-}
-variable "tenant_id" {
-    default = null
-}
-variable "client_id" {
-    default = null
-}
-variable "client_secret" {
-    default = null
-}
+variable "subscription_id" {}
+variable "tenant_id" {}
+variable "client_id" {}
+variable "client_secret" {}
 
 #Resource Group
 variable "resource_group_name" {}
@@ -22,7 +14,9 @@ variable "aks_client_id" {}
 variable "aks_client_secret" {}
 
 #Tags
-variable "tag_cluster" {}
+variable "tags" {
+    type = map
+}
 
 #Cluster Issuer Contact
 variable "cluster_issuer_email" {}
