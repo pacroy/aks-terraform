@@ -12,15 +12,13 @@ stages:
         displayName: 'Install Terraform'
         steps:
           - checkout: none
-          - bash: 'curl -L $(terraformDownloadUrl) -o terraform.zip'
-            displayName: 'Download Terraform'
-            name: 'download_terraform'
-          - bash: 'unzip terraform.zip -d $(Agent.ToolsDirectory)'
-            displayName: 'Unzip Terraform'
-            name: 'unzip_terraform'
-          - bash: 'terraform version'
-            displayName: 'Check Terraform Version'
-            name: 'check_terraform'
+          - bash: |
+              set -x
+              curl -L $(terraformDownloadUrl) -o terraform.zip
+              unzip terraform.zip -d $(Agent.ToolsDirectory)
+              terraform version
+            displayName: 'Download & Install Terraform'
+            name: 'install_terraform'
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
@@ -28,6 +26,7 @@ stages:
         displayName: 'Plan Terraform'
         steps:
           - bash: |
+              set -x
               terraform init \
                   -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
                   -backend-config=container_name=$(backendAzureRmContainerName) \
@@ -40,6 +39,7 @@ stages:
             displayName: 'Init Terraform'
             name: 'init_terraform'
           - bash: |
+              set -x
               terraform providers
               terraform plan -out=tfplan \
                   -var subscription_id=$(subscriptionId) \
@@ -70,6 +70,7 @@ stages:
               steps:
                 - checkout: self
                 - bash: |
+                    set -x
                     terraform init \
                         -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
                         -backend-config=container_name=$(backendAzureRmContainerName) \
@@ -82,6 +83,7 @@ stages:
                   displayName: 'Init Terraform'
                   name: 'init_terraform'
                 - bash: |
+                    set -x
                     terraform providers
                     terraform apply -auto-approve ../terraform_plan/tfplan
                   displayName: 'Apply Terraform'
