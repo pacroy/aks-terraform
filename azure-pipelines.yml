@@ -32,7 +32,8 @@ stages:
               [ -z "$(aksClusterName)" ] && echo 'Variable "aksClusterName" is not set' && exit 1
               [ -z "$(aksServicePrincipleId)" ] && echo 'Variable "aksServicePrincipleId" is not set' && exit 1
               [ -z "$(aksServicePrincipleSecret)" ] && echo 'Variable "aksServicePrincipleSecret" is not set' && exit 1
-              [ -z "$(aksClusterNickname)" ] && echo 'Variable "aksClusterNickname" is not set' && exit 1
+              [ -z "$(resourceTags)" ] && echo 'Variable "resourceTags" is not set' && exit 1
+              [ -z "$(clusterIssuerContactEmail)" ] && echo 'Variable "clusterIssuerContactEmail" is not set' && exit 1
               echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
@@ -88,7 +89,7 @@ stages:
                   -var aks_cluster_name=$(aksClusterName) \
                   -var aks_client_id=$(aksServicePrincipleId) \
                   -var aks_client_secret=$(aksServicePrincipleSecret) \
-                  -var tag_cluster=$(aksClusterNickname) \
+                  -var tags='$(resourceTags)' \
                   -var cluster_issuer_email=$(clusterIssuerContactEmail)
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
