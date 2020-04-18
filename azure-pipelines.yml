@@ -55,7 +55,7 @@ stages:
               mv kubectl $(Agent.ToolsDirectory)
               kubectl version --client
             displayName: 'Download & Install Kubectl'
-            name: 'install_kubectl'
+            name: install_kubectl''
           - bash: |
               set -ex
               curl -L $(helmDownloadUrl) -o helm.tar.gz
