@@ -44,14 +44,14 @@ terraform apply tfplan
 
 2. Create an Azure Pipeline running against this repo with the following variables:
 
-**Terraform Version**
+**Tool Download URLs**
 
 | Variable Name | Description |
 | --- | --- |
 | terraformDownloadUrl | Terraform Download URL e.g. `https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip` |
 | helmDownloadUrl | Helm Download URL e.g. `https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz` |
 
-**Terraform Backend Configuration in Azure Storage**
+**Terraform Backend Configuration**
 
 | Variable Name | Description |
 | --- | --- |
@@ -79,10 +79,11 @@ terraform apply tfplan
 | aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
 | aksClusterNickname | AKS Cluster Nickname (as tag `cluster`) |
 
-**Azure DevOps Configuration**
+**Other Configuration**
 
 | Variable Name | Description |
 | --- | --- |
-| environmentName | Environment Name |
+| environmentName | Azure DevOps Environment Name |
+| clusterIssuerContactEmail | Let's Encrypt Cluster Issuer Contact Email |
 
 3. Run the pipeline. If you setup an approval, it will need one before apply changes in the last stage
