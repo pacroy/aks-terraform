@@ -1,43 +1,5 @@
 # Terraform Script for Basic AKS Cluster
 
-## Terraform CLI
-
-1. Initialize Terraform with AzureRM as backend configuration
-
-```sh
-terraform init \
-    -backend-config=storage_account_name=<Azure Storage Account> \
-    -backend-config=container_name=<BLOB Container> \
-    -backend-config=key=<BLOB Key> \
-    -backend-config=resource_group_name=<Resource Group of the Storage Account> \
-    -backend-config=subscription_id=<Azure Subscription ID> \
-    -backend-config=tenant_id=<AzureAD Tenant ID> \
-    -backend-config=client_id=<AzureAD Service Principal ID> \
-    -backend-config=client_secret=<AzureAD Service Principal Secret>
-```
-
-2. Plan Terraform with variables
-
-```sh
-terraform plan -out=tfplan \
-    -var subscription_id=<Azure Subscription ID> \
-    -var tenant_id=<AzureAD Tenant ID> \
-    -var client_id=<AzureAD Service Principal ID> \
-    -var client_secret=<AzureAD Service Principal Secret> \
-    -var resource_group_name=<Resource Group of AKS> \
-    -var location=<Resource Location> \
-    -var aks_cluster_name=<AKS Cluster Name> \
-    -var aks_client_id=<AzureAD Service Principal ID for the AKS> \
-    -var aks_client_secret=<AzureAD Service Principal Secret> \
-    -var tag_cluster=<Cluster nickname as a tag>
-```
-
-3. Apply the Plan
-
-```sh
-terraform apply tfplan
-```
-
 ## Azure DevOps Pipeline
 
 1. Create a new environment in Azure Pipeline. You can optionally setup an approval, if you want.
@@ -77,7 +39,7 @@ terraform apply tfplan
 | aksClusterName | AKS Cluster Name |
 | aksServicePrincipleId | Service Principle ID for AKS Cluster |
 | aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
-| aksClusterNickname | AKS Cluster Nickname (as tag `cluster`) |
+| resourceTags | Resource Tags e.g. `{name1="value1",name2="value2"}` |
 
 **Other Configuration**
 
@@ -87,3 +49,42 @@ terraform apply tfplan
 | clusterIssuerContactEmail | Let's Encrypt Cluster Issuer Contact Email |
 
 3. Run the pipeline. If you setup an approval, it will need one before apply changes in the last stage
+
+## Terraform CLI
+
+1. Initialize Terraform with AzureRM as backend configuration
+
+```sh
+terraform init \
+    -backend-config=storage_account_name=<backendAzureRmStorageAccountName> \
+    -backend-config=container_name=<backendAzureRmContainerName> \
+    -backend-config=key=<backendAzureRmKey> \
+    -backend-config=resource_group_name=<backendAzureRmResourceGroupName> \
+    -backend-config=subscription_id=<backendAzureRmSubscriptionId> \
+    -backend-config=tenant_id=<backendAzureRmTenantId> \
+    -backend-config=client_id=<backendAzureRmClientId> \
+    -backend-config=client_secret=<backendAzureRmClientSecret>
+```
+
+2. Plan Terraform with variables
+
+```sh
+terraform plan -out=tfplan \
+    -var subscription_id=<subscriptionId> \
+    -var tenant_id=<tenantId> \
+    -var client_id=<servicePrincipleId> \
+    -var client_secret=<servicePrincipleSecret> \
+    -var resource_group_name=<aksResourceGroupName> \
+    -var location=<aksLocation> \
+    -var aks_cluster_name=<aksClusterName> \
+    -var aks_client_id=<aksServicePrincipleId> \
+    -var aks_client_secret=<aksServicePrincipleSecret> \
+    -var tags='<resourceTags>' \
+    -var cluster_issuer_email=<clusterIssuerContactEmail>
+```
+
+3. Apply the Plan
+
+```sh
+terraform apply tfplan
+```
