@@ -13,6 +13,7 @@ stages:
         steps:
           - checkout: none
           - bash: |
+              set -ex
               [ -z "$(terraformDownloadUrl)" ] && echo 'Variable "terraformDownloadUrl" is not set' && exit 1
               [ -z "$(helmDownloadUrl)" ] && echo 'Variable "helmDownloadUrl" is not set' && exit 1
               [ -z "$(backendAzureRmSubscriptionId)" ] && echo 'Variable "backendAzureRmSubscriptionId" is not set' && exit 1
