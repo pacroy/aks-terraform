@@ -5,11 +5,39 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: 'terraform_install'
-    displayName: 'Install Tools'
+  - stage: 'preparations'
+    displayName: 'Preparations'
     jobs:
-      - job: 'terraform_install'
-        displayName: 'Install Terraform'
+      - job: 'check_variables'
+        displayName: 'Check Pipeline Variables'
+        steps:
+          - checkout: none
+          - bash: |
+              [ -z "$(terraformDownloadUrl)" ] && echo 'Variable "terraformDownloadUrl" is not set' && exit 1
+              [ -z "$(helmDownloadUrl)" ] && echo 'Variable "helmDownloadUrl" is not set' && exit 1
+              [ -z "$(backendAzureRmSubscriptionId)" ] && echo 'Variable "backendAzureRmSubscriptionId" is not set' && exit 1
+              [ -z "$(backendAzureRmTenantId)" ] && echo 'Variable "backendAzureRmTenantId" is not set' && exit 1
+              [ -z "$(backendAzureRmClientId)" ] && echo 'Variable "backendAzureRmClientId" is not set' && exit 1
+              [ -z "$(backendAzureRmClientSecret)" ] && echo 'Variable "backendAzureRmClientSecret" is not set' && exit 1
+              [ -z "$(backendAzureRmResourceGroupName)" ] && echo 'Variable "backendAzureRmResourceGroupName" is not set' && exit 1
+              [ -z "$(backendAzureRmStorageAccountName)" ] && echo 'Variable "backendAzureRmStorageAccountName" is not set' && exit 1
+              [ -z "$(backendAzureRmContainerName)" ] && echo 'Variable "backendAzureRmContainerName" is not set' && exit 1
+              [ -z "$(backendAzureRmKey)" ] && echo 'Variable "backendAzureRmKey" is not set' && exit 1
+              [ -z "$(subscriptionId)" ] && echo 'Variable "subscriptionId" is not set' && exit 1
+              [ -z "$(tenantId)" ] && echo 'Variable "tenantId" is not set' && exit 1
+              [ -z "$(servicePrincipleId)" ] && echo 'Variable "servicePrincipleId" is not set' && exit 1
+              [ -z "$(servicePrincipleSecret)" ] && echo 'Variable "servicePrincipleSecret" is not set' && exit 1
+              [ -z "$(aksResourceGroupName)" ] && echo 'Variable "aksResourceGroupName" is not set' && exit 1
+              [ -z "$(aksLocation)" ] && echo 'Variable "aksLocation" is not set' && exit 1
+              [ -z "$(aksClusterName)" ] && echo 'Variable "aksClusterName" is not set' && exit 1
+              [ -z "$(aksServicePrincipleId)" ] && echo 'Variable "aksServicePrincipleId" is not set' && exit 1
+              [ -z "$(aksServicePrincipleSecret)" ] && echo 'Variable "aksServicePrincipleSecret" is not set' && exit 1
+              [ -z "$(aksClusterNickname)" ] && echo 'Variable "aksClusterNickname" is not set' && exit 1
+            displayName: 'Check Pipeline Variables'
+            name: 'check_variables'
+      - job: 'install_tools'
+        displayName: 'Install Tools'
+        dependsOn: ['check_variables']
         steps:
           - checkout: none
           - bash: |
@@ -92,6 +120,7 @@ stages:
                   name: 'init_terraform'
                 - bash: |
                     set -ex
+                    helm repo add stable https://kubernetes-charts.storage.googleapis.com
                     helm repo add pacroy https://raw.githubusercontent.com/pacroy/helm-repo/master
                     helm repo update
                     terraform providers

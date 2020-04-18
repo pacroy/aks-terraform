@@ -49,6 +49,7 @@ terraform apply tfplan
 | Variable Name | Description |
 | --- | --- |
 | terraformDownloadUrl | Terraform Download URL e.g. `https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip` |
+| helmDownloadUrl | Helm Download URL e.g. `https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz` |
 
 **Terraform Backend Configuration in Azure Storage**
 
