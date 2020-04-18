@@ -13,14 +13,14 @@ stages:
         steps:
           - checkout: none
           - bash: |
-              set -x
+              set -ex
               curl -L $(terraformDownloadUrl) -o terraform.zip
               unzip terraform.zip -d $(Agent.ToolsDirectory)
               terraform version
             displayName: 'Download & Install Terraform'
             name: 'install_terraform'
           - bash: |
-              set -x
+              set -ex
               curl -L $(helmDownloadUrl) -o helm.tar.gz
               tar -xvzf helm.tar.gz
               mv linux-amd64/helm $(Agent.ToolsDirectory)
@@ -34,7 +34,7 @@ stages:
         displayName: 'Plan Terraform'
         steps:
           - bash: |
-              set -x
+              set -ex
               terraform init \
                   -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
                   -backend-config=container_name=$(backendAzureRmContainerName) \
@@ -47,7 +47,7 @@ stages:
             displayName: 'Init Terraform'
             name: 'init_terraform'
           - bash: |
-              set -x
+              set -ex
               terraform providers
               terraform plan -out=tfplan \
                   -var subscription_id=$(subscriptionId) \
@@ -78,7 +78,7 @@ stages:
               steps:
                 - checkout: self
                 - bash: |
-                    set -x
+                    set -ex
                     terraform init \
                         -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
                         -backend-config=container_name=$(backendAzureRmContainerName) \
@@ -91,7 +91,7 @@ stages:
                   displayName: 'Init Terraform'
                   name: 'init_terraform'
                 - bash: |
-                    set -x
+                    set -ex
                     terraform providers
                     terraform apply -auto-approve ../terraform_plan/tfplan
                   displayName: 'Apply Terraform'
