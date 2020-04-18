@@ -6,7 +6,7 @@ pool:
 
 stages:
   - stage: 'terraform_install'
-    displayName: 'Install Terraform'
+    displayName: 'Install Tools'
     jobs:
       - job: 'terraform_install'
         displayName: 'Install Terraform'
@@ -19,6 +19,14 @@ stages:
               terraform version
             displayName: 'Download & Install Terraform'
             name: 'install_terraform'
+          - bash: |
+              set -x
+              curl -L $(helmDownloadUrl) -o helm.tar.gz
+              tar -xvzf helm.tar.gz
+              mv linux-amd64/helm $(Agent.ToolsDirectory)
+              helm version
+            displayName: 'Download & Install Helm'
+            name: 'install_helm'
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
