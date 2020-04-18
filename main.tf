@@ -1,9 +1,7 @@
 resource "azurerm_resource_group" "main" {
     name     = var.resource_group_name
     location = var.location
-    tags     = {
-      cluster = var.tag_cluster
-    }
+    tags     = var.tags
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
@@ -12,15 +10,14 @@ resource "azurerm_kubernetes_cluster" "main" {
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = var.aks_cluster_name
   kubernetes_version  = "1.15.10"
+  tags  = var.tags
 
   default_node_pool {
     name                = "default"
     vm_size             = "Standard_B2ms"
     enable_auto_scaling = false
     node_count          = 2
-    tags     = {
-      cluster = var.tag_cluster
-    }
+    tags                = var.tags
   }
 
   role_based_access_control  {
@@ -58,10 +55,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     oms_agent {
       enabled = false
     }
-  }
-
-  tags  = {
-    cluster = var.tag_cluster
   }
 }
 
