@@ -13,7 +13,6 @@ stages:
         steps:
           - checkout: none
           - bash: |
-              set -ex
               [ -z "$(terraformDownloadUrl)" ] && echo 'Variable "terraformDownloadUrl" is not set' && exit 1
               [ -z "$(helmDownloadUrl)" ] && echo 'Variable "helmDownloadUrl" is not set' && exit 1
               [ -z "$(backendAzureRmSubscriptionId)" ] && echo 'Variable "backendAzureRmSubscriptionId" is not set' && exit 1
@@ -34,6 +33,7 @@ stages:
               [ -z "$(aksServicePrincipleId)" ] && echo 'Variable "aksServicePrincipleId" is not set' && exit 1
               [ -z "$(aksServicePrincipleSecret)" ] && echo 'Variable "aksServicePrincipleSecret" is not set' && exit 1
               [ -z "$(aksClusterNickname)" ] && echo 'Variable "aksClusterNickname" is not set' && exit 1
+              echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
       - job: 'install_tools'
