@@ -37,6 +37,8 @@
 | aksResourceGroupName | Resource Group Name |
 | aksLocation | Resource Location |
 | aksClusterName | AKS Cluster Name |
+| aksNodeSize | AKS Default Node Size e.g. `Standard_B2ms` |
+| aksNoceCount | AKS Default Node Count e.g. `2` |
 | aksServicePrincipleId | Service Principle ID for AKS Cluster |
 | aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
 | resourceTags | Resource Tags e.g. `{name1="value1",name2="value2"}` |
