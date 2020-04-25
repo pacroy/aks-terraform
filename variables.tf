@@ -12,6 +12,12 @@ variable "location" {}
 variable "aks_cluster_name" {}
 variable "aks_client_id" {}
 variable "aks_client_secret" {}
+variable "aks_node_size" {
+    default = "Standard_B2ms"
+}
+variable "aks_node_count" {
+    default = 2
+}
 
 #Tags
 variable "tags" {

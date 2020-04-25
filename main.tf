@@ -14,9 +14,9 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   default_node_pool {
     name                = "default"
-    vm_size             = "Standard_B2ms"
+    vm_size             = var.aks_node_size
     enable_auto_scaling = false
-    node_count          = 2
+    node_count          = var.aks_node_count
     tags                = var.tags
   }
 
