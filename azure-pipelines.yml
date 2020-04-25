@@ -87,12 +87,12 @@ stages:
                   -var resource_group_name=$(aksResourceGroupName) \
                   -var location=$(aksLocation) \
                   -var aks_cluster_name=$(aksClusterName) \
+                  -var aks_node_size=$(aksNodeSize) \
+                  -var aks_node_count=$(aksNodeCount) \
                   -var aks_client_id=$(aksServicePrincipleId) \
                   -var aks_client_secret=$(aksServicePrincipleSecret) \
-                  -var tags='$(resourceTags)' \
                   -var cluster_issuer_email=$(clusterIssuerContactEmail) \
-                  -var aks_node_size=$(aksNodeSize) \
-                  -var aks_node_count=$(aksNodeCount)
+                  -var tags='$(resourceTags)'
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
           - publish: tfplan
