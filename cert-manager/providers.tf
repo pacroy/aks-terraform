@@ -9,3 +9,8 @@ provider "helm" {
     load_config_file       = false
   }
 }
+
+data "helm_repository" "pacroy" {
+  name = "pacroy"
+  url  = "https://raw.githubusercontent.com/pacroy/helm-repo/master"
+}
