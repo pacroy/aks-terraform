@@ -9,7 +9,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = var.aks_cluster_name
-  kubernetes_version  = "1.15.10"
+  kubernetes_version  = "1.15.11"
   tags  = var.tags
 
   default_node_pool {

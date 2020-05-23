@@ -4,7 +4,7 @@ terraform {
 }
 
 provider "azurerm" {
-    version       = "~> 2.4"
+    version       = "~> 2.11"
     subscription_id = var.subscription_id
     tenant_id       = var.tenant_id
     client_id       = var.client_id
@@ -19,5 +19,5 @@ provider "kubernetes" {
   client_key             = base64decode(azurerm_kubernetes_cluster.main.kube_config[0].client_key)
   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.main.kube_config[0].cluster_ca_certificate)
   load_config_file       = false
-  version                = "~> 1.10"
+  version                = "~> 1.11"
 }
