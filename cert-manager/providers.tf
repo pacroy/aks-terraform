@@ -1,5 +1,5 @@
 provider "helm" {
-  version = "~> 1.1"
+  version = "~> 1.2"
   kubernetes {
     host = var.kube_config.host
 
@@ -8,9 +8,4 @@ provider "helm" {
     cluster_ca_certificate = base64decode(var.kube_config.cluster_ca_certificate)
     load_config_file       = false
   }
-}
-
-data "helm_repository" "main" {
-  name = "pacroy"
-  url  = "https://raw.githubusercontent.com/pacroy/helm-repo/master"
 }
