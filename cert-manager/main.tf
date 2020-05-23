@@ -1,6 +1,6 @@
 resource "helm_release" "cert-manager" {
   name          = "cert-manager"
-  repository    = data.helm_repository.main.metadata[0].name
+  repository    = "https://raw.githubusercontent.com/pacroy/helm-repo/master"
   chart         = "cert-manager"
   namespace     = var.namespace
   force_update  = true
