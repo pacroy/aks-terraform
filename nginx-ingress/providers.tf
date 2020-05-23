@@ -9,3 +9,8 @@ provider "helm" {
     load_config_file       = false
   }
 }
+
+data "helm_repository" "stable" {
+  name = "stable"
+  url  = "https://kubernetes-charts.storage.googleapis.com"
+}
