@@ -74,5 +74,4 @@ module "cluster-issuer" {
   source      = "./cluster-issuer"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
   email       = var.cluster_issuer_email
-  depends_on  = [ module.cert-manager ]
 }
