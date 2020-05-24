@@ -58,21 +58,21 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 }
 
-resource "kubernetes_namespace" "cert-manager" {
-  metadata {
-    name = "cert-manager"
-  }
-}
-
 module "nginx-ingress" {
-  source = "./nginx-ingress"
+  source      = "./nginx-ingress"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
-  namespace = "kube-system"
+  namespace   = "kube-system"
 }
 
 module "cert-manager" {
-  source = "./cert-manager"
+  source      = "./cert-manager"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
-  namespace = kubernetes_namespace.cert-manager.metadata[0].name
-  email = var.cluster_issuer_email
+  namespace   = "cert-manager"
+}
+
+module "cluster-issuer" {
+  source      = "./cluster-issuer"
+  kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
+  email       = var.cluster_issuer_email
+  depends_on  = [ module.cert-manager ]
 }

@@ -6,4 +6,4 @@ variable "kube_config" {
     cluster_ca_certificate  = string
   })
 }
-variable "namespace" {}
+variable "email" {}
