@@ -63,9 +63,7 @@ stages:
         displayName: 'Check Tools'
         dependsOn: ['install_tools']
         steps:
-        - name: 'check_tool_version'
-          displayName: 'Check Tool Version'
-          bash: |
+        - bash: |
             if [ -x "$(command -v terraform)" ]; then
               which terraform
               terraform version
@@ -78,6 +76,8 @@ stages:
             else
               echo 'helm not found'
             fi
+          name: 'check_tool_version'
+          displayName: 'Check Tool Version'
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
