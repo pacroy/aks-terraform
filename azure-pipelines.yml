@@ -59,6 +59,25 @@ stages:
               helm version
             displayName: 'Download & Install Helm'
             name: 'install_helm'
+      - job: 'check_tool'
+        displayName: 'Check Tools'
+        dependsOn: ['install_tools']
+        steps:
+        - name: 'check_tool_version'
+          displayName: 'Check Tool Version'
+          bash: |
+            if [ -x "$(command -v terraform)" ]; then
+              which terraform
+              terraform version
+            else
+              echo 'terraform not found'
+            fi
+            if [ -x "$(command -v helm)" ]; then
+              which helm
+              helm version
+            else
+              echo 'helm not found'
+            fi
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
