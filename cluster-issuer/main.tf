@@ -1,6 +1,6 @@
 resource "helm_release" "cluster-issuer" {
   name          = "cluster-issuer"
-  repository    = data.helm_repository.main.metadata[0].name
+  repository    = "https://raw.githubusercontent.com/pacroy/helm-repo/master"
   chart         = "cluster-issuer"
   version       = "1.0.0"
 
