@@ -86,7 +86,7 @@ stages:
             name: 'plan_terraform'
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(Build.SourcesDirectory)'
               artifact: 'work'
               publishLocation: 'pipeline'
   - stage: 'terraform_apply'
