@@ -17,7 +17,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     vm_size             = var.aks_node_size
     enable_auto_scaling = false
     node_count          = var.aks_node_count
-    tags                = var.tags
   }
 
   role_based_access_control  {
