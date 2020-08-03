@@ -87,7 +87,7 @@ stages:
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(Build.SourcesDirectory)'
-              artifact: 'work'
+              artifact: 'terraform'
               publishLocation: 'pipeline'
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
@@ -102,7 +102,8 @@ stages:
                 - checkout: none
                 - bash: |
                     set -ex
-                    cd $(Pipeline.Workspace)/work
+                    cd $(Pipeline.Workspace)/terraform
+                    chmod -R +x .terraform/plugins/linux_amd64
                     helm repo add stable https://kubernetes-charts.storage.googleapis.com
                     helm repo add jetstack https://charts.jetstack.io
                     helm repo add pacroy https://raw.githubusercontent.com/pacroy/helm-repo/master
