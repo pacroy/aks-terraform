@@ -39,51 +39,19 @@ stages:
               echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
-      - job: 'install_tools'
-        displayName: 'Install Tools'
-        dependsOn: ['check_variables']
-        steps:
-          - checkout: none
-          - bash: |
-              set -ex
-              curl -L $(terraformDownloadUrl) -o terraform.zip
-              unzip terraform.zip -d $(Agent.ToolsDirectory)
-              terraform version
-            displayName: 'Download & Install Terraform'
-            name: 'install_terraform'
-          - bash: |
-              set -ex
-              curl -L $(helmDownloadUrl) -o helm.tar.gz
-              tar -xvzf helm.tar.gz
-              mv linux-amd64/helm $(Agent.ToolsDirectory)
-              helm version
-            displayName: 'Download & Install Helm'
-            name: 'install_helm'
-      - job: 'check_tool'
-        displayName: 'Check Tools'
-        dependsOn: ['install_tools']
-        steps:
-        - bash: |
-            if [ -x "$(command -v terraform)" ]; then
-              which terraform
-              terraform version
-            else
-              echo 'terraform not found'
-            fi
-            if [ -x "$(command -v helm)" ]; then
-              which helm
-              helm version
-            else
-              echo 'helm not found'
-            fi
-          name: 'check_tool_version'
-          displayName: 'Check Tool Version'
   - stage: 'terraform_plan'
     displayName: 'Plan Terraform'
     jobs:
       - job: terraform_plan
         displayName: 'Plan Terraform'
         steps:
+          - task: Bash@3
+            displayName: 'Check tool version'
+            inputs:
+              targetType: 'inline'
+              script: |
+                terraform version
+                helm version
           - bash: |
               set -ex
               terraform init \
@@ -116,9 +84,11 @@ stages:
                   -var tags='$(resourceTags)'
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
-          - publish: tfplan
-            artifact: terraform_plan
-            displayName: Publish Terraform Plan
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Pipeline.Workspace)'
+              artifact: 'work'
+              publishLocation: 'pipeline'
   - stage: 'terraform_apply'
     displayName: 'Apply Terraform'
     jobs:
@@ -129,20 +99,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
-                - bash: |
-                    set -ex
-                    terraform init \
-                        -backend-config=storage_account_name=$(backendAzureRmStorageAccountName) \
-                        -backend-config=container_name=$(backendAzureRmContainerName) \
-                        -backend-config=key=$(backendAzureRmKey) \
-                        -backend-config=resource_group_name=$(backendAzureRmResourceGroupName) \
-                        -backend-config=subscription_id=$(backendAzureRmSubscriptionId) \
-                        -backend-config=tenant_id=$(backendAzureRmTenantId) \
-                        -backend-config=client_id=$(backendAzureRmClientId) \
-                        -backend-config=client_secret=$(backendAzureRmClientSecret)
-                  displayName: 'Init Terraform'
-                  name: 'init_terraform'
+                - checkout: none
                 - bash: |
                     set -ex
                     helm repo add stable https://kubernetes-charts.storage.googleapis.com
@@ -150,6 +107,6 @@ stages:
                     helm repo add pacroy https://raw.githubusercontent.com/pacroy/helm-repo/master
                     helm repo update
                     terraform providers
-                    terraform apply -auto-approve ../terraform_plan/tfplan
+                    terraform apply -auto-approve work/tfplan
                   displayName: 'Apply Terraform'
                   name: 'apply_terraform'
