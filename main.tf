@@ -65,19 +65,19 @@ resource "kubernetes_namespace" "cert-manager" {
 }
 
 module "nginx-ingress" {
-  source      = "./nginx-ingress"
+  source      = "./nginx_ingress"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
   namespace   = "kube-system"
 }
 
 module "cert-manager" {
-  source      = "./cert-manager"
+  source      = "./cert_manager"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
   namespace   = kubernetes_namespace.cert-manager.metadata[0].name
 }
 
 module "cluster-issuer" {
-  source      = "./cluster-issuer"
+  source      = "./cluster_issuer"
   kube_config = azurerm_kubernetes_cluster.main.kube_config[0]
   email       = var.cluster_issuer_email
 }
