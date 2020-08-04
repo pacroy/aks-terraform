@@ -9,14 +9,15 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
   dns_prefix          = var.aks_cluster_name
-  kubernetes_version  = "1.17.9"
+  kubernetes_version  = var.kubernetes_version
   tags  = var.tags
 
   default_node_pool {
-    name                = "default"
-    vm_size             = var.aks_node_size
-    enable_auto_scaling = false
-    node_count          = var.aks_node_count
+    name                 = "default"
+    vm_size              = var.aks_node_size
+    enable_auto_scaling  = false
+    node_count           = var.aks_node_count
+    orchestrator_version = var.kubernetes_version
   }
 
   role_based_access_control  {
