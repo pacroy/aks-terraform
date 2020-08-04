@@ -5,13 +5,12 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 stages:
-  - stage: 'preparations'
-    displayName: 'Preparations'
+  - stage: 'terraform_plan'
+    displayName: 'Plan Terraform'
     jobs:
-      - job: 'check_variables'
-        displayName: 'Check Pipeline Variables'
+      - job: terraform_plan
+        displayName: 'Plan Terraform'
         steps:
-          - checkout: none
           - bash: |
               [ -z "$(terraformDownloadUrl)" ] && echo 'Variable "terraformDownloadUrl" is not set' && exit 1
               [ -z "$(helmDownloadUrl)" ] && echo 'Variable "helmDownloadUrl" is not set' && exit 1
@@ -39,12 +38,7 @@ stages:
               echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
-  - stage: 'terraform_plan'
-    displayName: 'Plan Terraform'
-    jobs:
-      - job: terraform_plan
-        displayName: 'Plan Terraform'
-        steps:
+          - checkout: self
           - task: Bash@3
             displayName: 'Check tool version'
             inputs:
