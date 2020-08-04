@@ -1,5 +1,5 @@
 provider "helm" {
-  version = "~> 1.2"
+  version = "~> 1.2.0"
   kubernetes {
     host = var.kube_config.host
 
