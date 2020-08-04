@@ -11,3 +11,7 @@ resource "helm_release" "cert-manager" {
     value = true
   }
 }
+
+output "namespace" {
+  value = helm_release.cert-manager.metadata.namespace
+}
