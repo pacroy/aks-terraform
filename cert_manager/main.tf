@@ -13,5 +13,5 @@ resource "helm_release" "cert-manager" {
 }
 
 output "namespace" {
-  value = helm_release.cert-manager.metadata.namespace
+  value = cert-manager.metadata.namespace
 }
