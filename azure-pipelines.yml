@@ -120,6 +120,8 @@ stages:
                     -var aks_client_secret=$(aksServicePrincipleSecret) \
                     -var cluster_issuer_email=$(clusterIssuerContactEmail) \
                     -var tags='$(resourceTags)'
+              displayName: 'Plan Terraform'
+              name: 'plan_terraform'
           - ${{ if eq(parameters.isDestroy, true) }}:
             - bash: |
                 set -ex
@@ -138,8 +140,8 @@ stages:
                     -var aks_client_secret=$(aksServicePrincipleSecret) \
                     -var cluster_issuer_email=$(clusterIssuerContactEmail) \
                     -var tags='$(resourceTags)'
-            displayName: 'Plan Terraform'
-            name: 'plan_terraform'
+              displayName: 'Plan Terraform'
+              name: 'plan_terraform'
           - publish: tfplan
             artifact: terraform_plan
             displayName: Publish Terraform Plan
