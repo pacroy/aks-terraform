@@ -4,6 +4,11 @@ pr: none
 pool:
   vmImage: 'ubuntu-18.04'
 
+parameters:
+- name: 'isDestroy'
+  type: boolean
+  default: false
+
 stages:
   - stage: 'preparations'
     displayName: 'Preparations'
@@ -97,23 +102,42 @@ stages:
                   -backend-config=client_secret=$(backendAzureRmClientSecret)
             displayName: 'Init Terraform'
             name: 'init_terraform'
-          - bash: |
-              set -ex
-              terraform providers
-              terraform plan -out=tfplan \
-                  -var subscription_id=$(subscriptionId) \
-                  -var tenant_id=$(tenantId) \
-                  -var client_id=$(servicePrincipleId) \
-                  -var client_secret=$(servicePrincipleSecret) \
-                  -var resource_group_name=$(aksResourceGroupName) \
-                  -var location=$(aksLocation) \
-                  -var aks_cluster_name=$(aksClusterName) \
-                  -var aks_node_size=$(aksNodeSize) \
-                  -var aks_node_count=$(aksNodeCount) \
-                  -var aks_client_id=$(aksServicePrincipleId) \
-                  -var aks_client_secret=$(aksServicePrincipleSecret) \
-                  -var cluster_issuer_email=$(clusterIssuerContactEmail) \
-                  -var tags='$(resourceTags)'
+          - ${{ if eq(parameters.isDestroy, false) }}:
+            - bash: |
+                set -ex
+                terraform providers
+                terraform plan -out=tfplan \
+                    -var subscription_id=$(subscriptionId) \
+                    -var tenant_id=$(tenantId) \
+                    -var client_id=$(servicePrincipleId) \
+                    -var client_secret=$(servicePrincipleSecret) \
+                    -var resource_group_name=$(aksResourceGroupName) \
+                    -var location=$(aksLocation) \
+                    -var aks_cluster_name=$(aksClusterName) \
+                    -var aks_node_size=$(aksNodeSize) \
+                    -var aks_node_count=$(aksNodeCount) \
+                    -var aks_client_id=$(aksServicePrincipleId) \
+                    -var aks_client_secret=$(aksServicePrincipleSecret) \
+                    -var cluster_issuer_email=$(clusterIssuerContactEmail) \
+                    -var tags='$(resourceTags)'
+          - ${{ if eq(parameters.isDestroy, true) }}:
+            - bash: |
+                set -ex
+                terraform providers
+                terraform plan -out=tfplan --destroy \
+                    -var subscription_id=$(subscriptionId) \
+                    -var tenant_id=$(tenantId) \
+                    -var client_id=$(servicePrincipleId) \
+                    -var client_secret=$(servicePrincipleSecret) \
+                    -var resource_group_name=$(aksResourceGroupName) \
+                    -var location=$(aksLocation) \
+                    -var aks_cluster_name=$(aksClusterName) \
+                    -var aks_node_size=$(aksNodeSize) \
+                    -var aks_node_count=$(aksNodeCount) \
+                    -var aks_client_id=$(aksServicePrincipleId) \
+                    -var aks_client_secret=$(aksServicePrincipleSecret) \
+                    -var cluster_issuer_email=$(clusterIssuerContactEmail) \
+                    -var tags='$(resourceTags)'
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
           - publish: tfplan
