@@ -6,6 +6,7 @@ pool:
 
 parameters:
 - name: 'isDestroy'
+  displayName: 'Destroy operation'
   type: boolean
   default: false
 
