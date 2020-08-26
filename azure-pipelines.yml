@@ -85,8 +85,8 @@ stages:
             displayName: 'Plan Terraform'
             name: 'plan_terraform'
             ${{ if eq(parameters.isDestroy, true) }}:
-            env:
-              DESTROY: '--destroy'
+              env:
+                DESTROY: '--destroy'
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(Build.SourcesDirectory)'
