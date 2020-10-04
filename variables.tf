@@ -18,10 +18,7 @@ variable "aks_node_size" {
 variable "aks_node_count" {
     default = 2
 }
-variable "kubernetes_version" {
-    type = string
-    default = "1.17.9"
-}
+variable "kubernetes_version" {}
 
 #Tags
 variable "tags" {
