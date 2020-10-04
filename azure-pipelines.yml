@@ -78,6 +78,7 @@ stages:
                   -var aks_cluster_name=$(aksClusterName) \
                   -var aks_node_size=$(aksNodeSize) \
                   -var aks_node_count=$(aksNodeCount) \
+                  -var kubernetes_version=$(kubeVersion) \
                   -var aks_client_id=$(aksServicePrincipleId) \
                   -var aks_client_secret=$(aksServicePrincipleSecret) \
                   -var cluster_issuer_email=$(clusterIssuerContactEmail) \
