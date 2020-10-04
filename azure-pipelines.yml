@@ -41,6 +41,7 @@ stages:
               [ -z "$(clusterIssuerContactEmail)" ] && echo 'Variable "clusterIssuerContactEmail" is not set' && exit 1
               [ -z "$(aksNodeSize)" ] && echo 'Variable "aksNodeSize" is not set' && exit 1
               [ -z "$(aksNodeCount)" ] && echo 'Variable "aksNodeCount" is not set' && exit 1
+              [ -z "$(kubeVersion)" ] && echo 'Variable "kubeVersion" is not set' && exit 1
               echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
