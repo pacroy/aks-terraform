@@ -106,7 +106,7 @@ stages:
                 - bash: |
                     set -ex
                     cd $(Pipeline.Workspace)/terraform
-                    chmod -R +x .terraform/plugins
+                    chmod -R +x .terraform/providers
                     helm repo add stable https://charts.helm.sh/stable
                     helm repo add jetstack https://charts.jetstack.io
                     helm repo add pacroy https://pacroy.github.io/helm-repo/
