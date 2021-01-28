@@ -6,13 +6,6 @@
 
 2. Create an Azure Pipeline running against this repo with the following variables:
 
-**Tool Download URLs**
-
-| Variable Name | Description |
-| --- | --- |
-| terraformDownloadUrl | Terraform Download URL e.g. `https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip` |
-| helmDownloadUrl | Helm Download URL e.g. `https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz` |
-
 **Terraform Backend Configuration**
 
 | Variable Name | Description |
@@ -42,6 +35,7 @@
 | aksServicePrincipleId | Service Principle ID for AKS Cluster |
 | aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
 | resourceTags | Resource Tags e.g. `{name1="value1",name2="value2"}` |
+| kubeVersion | Kubernetes version of the control pane and node pool |
 
 **Other Configuration**
 

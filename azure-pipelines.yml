@@ -18,8 +18,6 @@ stages:
         displayName: 'Plan Terraform'
         steps:
           - bash: |
-              [ -z "$(terraformDownloadUrl)" ] && echo 'Variable "terraformDownloadUrl" is not set' && exit 1
-              [ -z "$(helmDownloadUrl)" ] && echo 'Variable "helmDownloadUrl" is not set' && exit 1
               [ -z "$(backendAzureRmSubscriptionId)" ] && echo 'Variable "backendAzureRmSubscriptionId" is not set' && exit 1
               [ -z "$(backendAzureRmTenantId)" ] && echo 'Variable "backendAzureRmTenantId" is not set' && exit 1
               [ -z "$(backendAzureRmClientId)" ] && echo 'Variable "backendAzureRmClientId" is not set' && exit 1
