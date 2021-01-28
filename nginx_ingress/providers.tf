@@ -1,5 +1,13 @@
+terraform {
+  required_providers {
+    helm = {
+      source = "helm"
+      version = "~> 1.3.0"
+    }
+  }
+}
+
 provider "helm" {
-  version = "~> 1.3.0"
   kubernetes {
     host = var.kube_config.host
 
