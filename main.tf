@@ -21,7 +21,11 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   role_based_access_control  {
-    enabled = false
+    enabled = true
+    azure_active_directory {
+      managed = true
+      tenant_id = var.tenant_id
+    }
   }
   
   service_principal {
