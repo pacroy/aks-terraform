@@ -61,12 +61,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 }
 
-resource "kubernetes_namespace" "cert-manager" {
-  metadata {
-    name = "cert-manager"
-  }
-}
-
 module "nginx-ingress" {
   source      = "./nginx_ingress"
   kube_config = azurerm_kubernetes_cluster.main.kube_admin_config[0]
@@ -76,7 +70,7 @@ module "nginx-ingress" {
 module "cert-manager" {
   source      = "./cert_manager"
   kube_config = azurerm_kubernetes_cluster.main.kube_admin_config[0]
-  namespace   = kubernetes_namespace.cert-manager.metadata[0].name
+  namespace   = "cert-manager"
 }
 
 module "cluster-issuer" {
