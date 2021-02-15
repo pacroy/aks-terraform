@@ -1,5 +1,29 @@
 # Terraform Script for Basic AKS Cluster
 
+## Prerequisites
+
+Create an Azure AD Group and add a member.
+
+```sh
+# Create a new group
+group_id=$(az ad group create --display-name "<group-name>" --mail-nickname "<group-name>" | jq -r ".objectId")
+
+# Add a member to the group
+member_id=$(az ad user list --upn "<email address>" --query '[0].objectId' --output tsv)
+az ad group member add --group "${group_id}" --member-id "${member_id}"
+```
+
+To list and remove member:
+
+```sh
+# List current members
+az ad group member list --group "${group_id}" --query '[].userPrincipalName'
+
+# Remove a member
+member_id=$(az ad user list --upn "<email address>" --query '[0].objectId' --output tsv)
+az ad group member remove --group "${group_id}" --member-id "${member_id}"
+```
+
 ## Azure DevOps Pipeline
 
 1. Create a new environment in Azure Pipeline. You can optionally setup an approval, if you want.
@@ -30,10 +54,9 @@
 | aksResourceGroupName | Resource Group Name |
 | aksLocation | Resource Location |
 | aksClusterName | AKS Cluster Name |
+| aksAdminGroupID | Azure AD Group ID to assign as AKS cluster admin |
 | aksNodeSize | AKS Default Node Size e.g. `Standard_B2ms` |
 | aksNodeCount | AKS Default Node Count e.g. `2` |
-| aksServicePrincipleId | Service Principle ID for AKS Cluster |
-| aksServicePrincipleSecret | Service Principle Secret for AKS Cluster |
 | resourceTags | Resource Tags e.g. `{name1="value1",name2="value2"}` |
 | kubeVersion | Kubernetes version of the control pane and node pool |
 
@@ -73,10 +96,12 @@ terraform plan -out=tfplan \
     -var resource_group_name=<aksResourceGroupName> \
     -var location=<aksLocation> \
     -var aks_cluster_name=<aksClusterName> \
-    -var aks_client_id=<aksServicePrincipleId> \
-    -var aks_client_secret=<aksServicePrincipleSecret> \
+    -var aks_node_size=<aksNodeSize> \
+    -var aks_node_count=<aksNodeCount> \
+    -var kubernetes_version=<kubeVersion> \
+    -var admin_group_id=<aksAdminGroupID> \
+    -var cluster_issuer_email=<clusterIssuerContactEmail> \
     -var tags='<resourceTags>' \
-    -var cluster_issuer_email=<clusterIssuerContactEmail>
 ```
 
 3. Apply the Plan

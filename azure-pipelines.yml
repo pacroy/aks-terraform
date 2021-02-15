@@ -33,13 +33,13 @@ stages:
               [ -z "$(aksResourceGroupName)" ] && echo 'Variable "aksResourceGroupName" is not set' && exit 1
               [ -z "$(aksLocation)" ] && echo 'Variable "aksLocation" is not set' && exit 1
               [ -z "$(aksClusterName)" ] && echo 'Variable "aksClusterName" is not set' && exit 1
-              [ -z "$(aksServicePrincipleId)" ] && echo 'Variable "aksServicePrincipleId" is not set' && exit 1
-              [ -z "$(aksServicePrincipleSecret)" ] && echo 'Variable "aksServicePrincipleSecret" is not set' && exit 1
-              [ -z '$(resourceTags)' ] && echo 'Variable "resourceTags" is not set' && exit 1
+              [ -z "$(aksAdminGroupID)" ] && echo 'Variable "aksAdminGroupID" is not set' && exit 1
               [ -z "$(clusterIssuerContactEmail)" ] && echo 'Variable "clusterIssuerContactEmail" is not set' && exit 1
               [ -z "$(aksNodeSize)" ] && echo 'Variable "aksNodeSize" is not set' && exit 1
               [ -z "$(aksNodeCount)" ] && echo 'Variable "aksNodeCount" is not set' && exit 1
               [ -z "$(kubeVersion)" ] && echo 'Variable "kubeVersion" is not set' && exit 1
+              [ -z '$(resourceTags)' ] && echo 'Variable "resourceTags" is not set' && exit 1
+
               echo 'All variables are set'
             displayName: 'Check Pipeline Variables'
             name: 'check_variables'
@@ -78,8 +78,7 @@ stages:
                   -var aks_node_size=$(aksNodeSize) \
                   -var aks_node_count=$(aksNodeCount) \
                   -var kubernetes_version=$(kubeVersion) \
-                  -var aks_client_id=$(aksServicePrincipleId) \
-                  -var aks_client_secret=$(aksServicePrincipleSecret) \
+                  -var admin_group_id=$(aksAdminGroupID) \
                   -var cluster_issuer_email=$(clusterIssuerContactEmail) \
                   -var tags='$(resourceTags)'
             displayName: 'Plan Terraform'

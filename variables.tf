@@ -10,8 +10,7 @@ variable "resource_group_name" {}
 #AKS cluster
 variable "location" {}
 variable "aks_cluster_name" {}
-variable "aks_client_id" {}
-variable "aks_client_secret" {}
+variable "admin_group_id" {}
 variable "aks_node_size" {
     default = "Standard_B2s"
 }

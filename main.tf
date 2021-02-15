@@ -25,6 +25,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     azure_active_directory {
       managed = true
       tenant_id = var.tenant_id
+      admin_group_object_ids = [ var.admin_group_id ]
     }
   }
   
