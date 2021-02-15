@@ -7,7 +7,7 @@ output "fqdn" {
 }
 
 output "host" {
-  value = azurerm_kubernetes_cluster.main.kube_config.0.host
+  value = azurerm_kubernetes_cluster.main.kube_admin_config.host
 }
 
 output "node_resource_group" {
