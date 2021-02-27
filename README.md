@@ -20,7 +20,7 @@ If storage account is in another subscription, you have to grant additional perm
 az role assignment create --assignee "{service-principal-id}" --role "Contributor" --scope "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Storage/storageAccounts/{storage-account}"
 ```
 
-List permission to verify
+### List permission to verify
 
 ```sh
 az role assignment list --all --assignee "{service-principal-id}" --subscription "{subscription-id}" --output table
