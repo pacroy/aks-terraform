@@ -28,15 +28,17 @@ az role assignment list --all --assignee "{service-principal-id}" --subscription
 
 ## Azure AD Group
 
-Create an Azure AD Group and add a member. This will allow people in the group to access AKS as cluster admin.
+An Azure AD group is required by the template to give initial access to AKS cluster as cluster admin.
 
-### Create Azure AD Group and Add Members
+### Create Azure AD Group
 
 ```sh
-# Create a new group
 group_id=$(az ad group create --display-name "<group-name>" --mail-nickname "<group-name>" | jq -r ".objectId")
+```
 
-# Add a member to the group
+### Add Member to Azure AD Group
+
+```
 member_id=$(az ad user list --upn "<email address>" --query '[0].objectId' --output tsv)
 az ad group member add --group "${group_id}" --member-id "${member_id}"
 ```
