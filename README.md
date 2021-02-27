@@ -1,8 +1,36 @@
 # Terraform Script for Basic AKS Cluster
 
-## Prerequisites
+## Service Principal
 
-Create an Azure AD Group and add a member.
+The template needs at least one service principal to access Azure storage that keeping terraform tfstate file and create AKS cluster resources in an Azure subscription.
+
+### Create Service Principal
+
+Create service principal and grant Contributor permission over a subscription that will you want to deploy AKS cluster within.
+
+```sh
+az ad sp create-for-rbac --name "http://your-sp-name" --role "Contributor" --scope "/subscriptions/{subscription-id}"
+```
+
+### Grant Permission
+
+If storage account is in another subscription, you have to grant additional permission to the storage account.
+
+```sh
+az role assignment create --assignee "{service-principal-id}" --role "Contributor" --scope "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Storage/storageAccounts/{storage-account}"
+```
+
+List permission to verify
+
+```sh
+az role assignment list --all --assignee "{service-principal-id}" --subscription "{subscription-id}" --output table
+```
+
+## Azure AD Group
+
+Create an Azure AD Group and add a member. This will allow people in the group to access AKS as cluster admin.
+
+### Create Azure AD Group and Add Members
 
 ```sh
 # Create a new group
@@ -13,13 +41,15 @@ member_id=$(az ad user list --upn "<email address>" --query '[0].objectId' --out
 az ad group member add --group "${group_id}" --member-id "${member_id}"
 ```
 
-To list and remove member:
+### List Member in Azure AD Group
 
 ```sh
-# List current members
 az ad group member list --group "${group_id}" --query '[].userPrincipalName'
+```
 
-# Remove a member
+### Remove Member from Azure AD Group
+
+```sh
 member_id=$(az ad user list --upn "<email address>" --query '[0].objectId' --output tsv)
 az ad group member remove --group "${group_id}" --member-id "${member_id}"
 ```
