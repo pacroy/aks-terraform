@@ -1,5 +1,7 @@
 # Terraform Script for Basic AKS Cluster
 
+[![Lint Code Base](https://github.com/pacroy/aks-terraform/actions/workflows/linter.yml/badge.svg)](https://github.com/pacroy/aks-terraform/actions/workflows/linter.yml)
+
 ## Service Principal
 
 The template needs at least one service principal to access Azure storage that keeping terraform tfstate file and create AKS cluster resources in an Azure subscription.
