@@ -4,6 +4,13 @@ resource "azurerm_resource_group" "main" {
     tags     = var.tags
 }
 
+resource "azurerm_management_lock" "main" {
+  name       = var.resource_group_name
+  scope      = azurerm_resource_group.main.id
+  lock_level = "ReadOnly"
+  notes      = "This Resource Group is Read-Only"
+}
+
 resource "azurerm_kubernetes_cluster" "main" {
   name                = var.aks_cluster_name
   location            = var.location
