@@ -148,11 +148,11 @@ terraform apply tfplan
 
 **Symptom**: Got the error below while applying
 
-    ```
-    Error: Internal error occurred: failed calling webhook "webhook.cert-manager.io": Post "https://cert-manager-webhook.cert-manager.svc:443/mutate?timeout=10s": x509: certificate signed by unknown authority
+```
+Error: Internal error occurred: failed calling webhook "webhook.cert-manager.io": Post "https://cert-manager-webhook.cert-manager.svc:443/mutate?timeout=10s": x509: certificate signed by unknown authority
 
-    on cluster_issuer/main.tf line 1, in resource "helm_release" "cluster-issuer":
-    1: resource "helm_release" "cluster-issuer" {
-    ```
+on cluster_issuer/main.tf line 1, in resource "helm_release" "cluster-issuer":
+1: resource "helm_release" "cluster-issuer" {
+```
 
 **Resolution**: Try applying again
