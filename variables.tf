@@ -21,6 +21,7 @@ variable "kubernetes_version" {}
 variable "enable_azure_policy" {
     type    = bool
     default = false
+    description = "Enable Azure policy add-on for AKS"
 }
 
 variable "enable_oms_agent" {
