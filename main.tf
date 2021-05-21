@@ -64,7 +64,8 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
 
     oms_agent {
-      enabled = false
+      enabled = var.enable_oms_agent
+      log_analytics_workspace_id = var.log_analytics_workspace_id
     }
   }
 }

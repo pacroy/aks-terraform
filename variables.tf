@@ -23,6 +23,15 @@ variable "enable_azure_policy" {
     default = false
 }
 
+variable "enable_oms_agent" {
+    type    = bool
+    default = false
+    description = "Enable log analytics workspace (OMS agent)"
+}
+variable "log_analytics_workspace_id" {
+    default = "Log analytics workspace resource ID (required if enable_oms_agent is enabled)"
+}
+
 #Tags
 variable "tags" {
     type = map
