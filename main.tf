@@ -69,8 +69,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 }
 
-module "nginx-ingress" {
-  source      = "./nginx_ingress"
+module "ingress-nginx" {
+  source      = "./ingress-nginx"
   kube_config = azurerm_kubernetes_cluster.main.kube_admin_config[0]
   namespace   = "kube-system"
 }
