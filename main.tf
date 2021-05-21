@@ -52,7 +52,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
 
     azure_policy {
-      enabled = false
+      enabled = var.enable_azure_policy
     }
 
     http_application_routing {

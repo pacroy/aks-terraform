@@ -18,6 +18,10 @@ variable "aks_node_count" {
     default = 2
 }
 variable "kubernetes_version" {}
+variable "enable_azure_policy" {
+    type    = bool
+    default = false
+}
 
 #Tags
 variable "tags" {
